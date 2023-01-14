@@ -1,0 +1,125 @@
+swagger: "2.0"
+info:
+  title: Dollar-VzlAPI
+  description: API que monitorea el precio del dolar en Venezuela
+  version: 1.0.0
+  contact:
+    name: Spyridon Mihalopoulos
+    email: root.spyro@gmail.com
+    url: https://rootspyro.com
+  license:
+    name: MIT
+    url: https://choosealicense.com/licenses/mit/
+basePath: /api/v1
+paths:  
+  /dolar:
+    get:
+      description: Retorna la lista de plataformas del precio del dolar
+      operationId: GetDolarPlatforms
+      tags:
+        - Dolar
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/DolarPlatforms"
+        default:
+          description: respuesta generica
+          schema: 
+            $ref: "#/definitions/default"
+            
+  /dolar/{plataforma}:
+    get:
+      description: Retorna el precio del dolar en la plataforma indicada
+      operationId: GetDolarPrice
+      parameters:
+        - name: plataforma
+          type: string
+          required: true
+          in: path
+      tags:
+        - Dolar
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/DolarPriceResponse"
+        default:
+          description: respuesta generica
+          schema: 
+            $ref: "#/definitions/default"
+            
+  /dolar/promedio:
+    get:
+      description: Retorna el promedio del dolar paralelo
+      operationId: GetDolarProm
+      tags:
+        - Dolar
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/DolarPromResponse"
+        default:
+          description: respuesta generica
+          schema:
+            $ref: "#/definitions/default"
+      
+tags: 
+  - name: Dolar
+    description: Todos los endpoints relacionados al dolar
+definitions: 
+
+  default:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: string
+        
+  DolarPlatforms:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/DolarPrice"
+
+  DolarPrice:
+    type: object
+    properties:
+      plataforma:
+        type: string
+      precio_ves:
+        type: number
+      url:
+        type: string
+        
+  DolarPriceResponse:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        $ref: "#/definitions/DolarPrice"
+        
+  DolarProm:
+    type: object
+    properties:
+      dolar_paralelo:
+        type: number
+      referencias:
+        type: array
+        items:
+          $ref: "#/definitions/DolarPrice"
+          
+  DolarPromResponse:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        $ref: "#/definitions/DolarProm"
