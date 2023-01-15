@@ -20,7 +20,7 @@ import (
 type DolarPlatforms struct {
 
 	// data
-	Data []*DolarPrice `json:"data"`
+	Data []*DolarPlatform `json:"data"`
 
 	// status
 	Status string `json:"status,omitempty"`

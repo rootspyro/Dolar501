@@ -114,13 +114,24 @@ func init() {
     }
   },
   "definitions": {
+    "DolarPlatform": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "plataforma": {
+          "type": "string"
+        }
+      }
+    },
     "DolarPlatforms": {
       "type": "object",
       "properties": {
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/DolarPrice"
+            "$ref": "#/definitions/DolarPlatform"
           }
         },
         "status": {
@@ -136,9 +147,6 @@ func init() {
         },
         "precio_ves": {
           "type": "number"
-        },
-        "url": {
-          "type": "string"
         }
       }
     },
@@ -294,13 +302,24 @@ func init() {
     }
   },
   "definitions": {
+    "DolarPlatform": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "plataforma": {
+          "type": "string"
+        }
+      }
+    },
     "DolarPlatforms": {
       "type": "object",
       "properties": {
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/DolarPrice"
+            "$ref": "#/definitions/DolarPlatform"
           }
         },
         "status": {
@@ -316,9 +335,6 @@ func init() {
         },
         "precio_ves": {
           "type": "number"
-        },
-        "url": {
-          "type": "string"
         }
       }
     },

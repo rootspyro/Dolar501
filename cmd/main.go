@@ -4,11 +4,13 @@ import (
 	"log"
 	"os"
 	"strconv"
-
 	"github.com/go-openapi/loads"
+	"github.com/go-redis/redis/v9"
 	"github.com/joho/godotenv"
 	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi"
 	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations"
+	"github.com/rootspyro/Dollar-VzlAPI/handlers"
+	"github.com/rootspyro/Dollar-VzlAPI/services"
 )
 
 func main(){
@@ -21,7 +23,23 @@ func main(){
 	api := operations.NewDollarVzlAPIAPI(swaggerSpec)
 	server := restapi.NewServer(api)
 
+
 	defer server.Shutdown()
+
+	// redis client
+	db, _ := strconv.Atoi(os.Getenv("REDIS_DB"))
+
+	rdClient := redis.NewClient(&redis.Options{
+		Addr: os.Getenv("REDIS_HOST"),
+		Password: os.Getenv("REDIS_PASSWORD"),
+		DB: db,
+	}) 
+
+	// services setup
+	dolarSrv := services.NewDolarServices(rdClient)
+
+	// handlers setup
+	api.DolarGetDolarPlatformsHandler = handlers.NewGetPlatformsImpl(dolarSrv)
 
 	// server port 
 	port, _ := strconv.Atoi(os.Getenv("PORT"))

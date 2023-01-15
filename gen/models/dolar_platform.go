@@ -12,30 +12,30 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// DolarPrice dolar price
+// DolarPlatform dolar platform
 //
-// swagger:model DolarPrice
-type DolarPrice struct {
+// swagger:model DolarPlatform
+type DolarPlatform struct {
+
+	// endpoint
+	Endpoint string `json:"endpoint,omitempty"`
 
 	// plataforma
 	Plataforma string `json:"plataforma,omitempty"`
-
-	// precio ves
-	PrecioVes float64 `json:"precio_ves,omitempty"`
 }
 
-// Validate validates this dolar price
-func (m *DolarPrice) Validate(formats strfmt.Registry) error {
+// Validate validates this dolar platform
+func (m *DolarPlatform) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validates this dolar price based on context it is used
-func (m *DolarPrice) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validates this dolar platform based on context it is used
+func (m *DolarPlatform) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
 // MarshalBinary interface implementation
-func (m *DolarPrice) MarshalBinary() ([]byte, error) {
+func (m *DolarPlatform) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -43,8 +43,8 @@ func (m *DolarPrice) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *DolarPrice) UnmarshalBinary(b []byte) error {
-	var res DolarPrice
+func (m *DolarPlatform) UnmarshalBinary(b []byte) error {
+	var res DolarPlatform
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

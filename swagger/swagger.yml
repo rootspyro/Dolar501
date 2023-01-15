@@ -77,6 +77,14 @@ definitions:
         type: string
       data:
         type: string
+
+  DolarPlatform:
+    type: object
+    properties:
+      plataforma:
+        type: string
+      endpoint:
+        type: string
         
   DolarPlatforms:
     type: object
@@ -86,7 +94,7 @@ definitions:
       data:
         type: array
         items:
-          $ref: "#/definitions/DolarPrice"
+          $ref: "#/definitions/DolarPlatform"
 
   DolarPrice:
     type: object
@@ -95,8 +103,6 @@ definitions:
         type: string
       precio_ves:
         type: number
-      url:
-        type: string
         
   DolarPriceResponse:
     type: object
