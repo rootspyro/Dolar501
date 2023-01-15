@@ -12,6 +12,7 @@ import (
 
 	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations"
 	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations/dolar"
+	"github.com/rootspyro/Dollar-VzlAPI/middlewares"
 )
 
 //go:generate swagger generate server --target ../../gen --name DollarVzlAPI --spec ../../swagger/swagger.yml --principal interface{} --exclude-main
@@ -82,5 +83,14 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics.
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
-	return handler
+
+	middlw := middlewares.NewMiddlewares()
+
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	
+		middlw.RequestLogger(r)
+
+		//Next
+		handler.ServeHTTP(w, r)
+	})
 }
