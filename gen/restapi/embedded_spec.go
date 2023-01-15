@@ -64,12 +64,12 @@ func init() {
         "tags": [
           "Dolar"
         ],
-        "operationId": "GetDolarProm",
+        "operationId": "GetDolarAverage",
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/DolarPromResponse"
+              "$ref": "#/definitions/DolarAverageResponse"
             }
           },
           "default": {
@@ -114,6 +114,31 @@ func init() {
     }
   },
   "definitions": {
+    "DolarAverage": {
+      "type": "object",
+      "properties": {
+        "dolar_paralelo": {
+          "type": "number"
+        },
+        "referencias": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DolarPrice"
+          }
+        }
+      }
+    },
+    "DolarAverageResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/DolarAverage"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
     "DolarPlatform": {
       "type": "object",
       "properties": {
@@ -155,31 +180,6 @@ func init() {
       "properties": {
         "data": {
           "$ref": "#/definitions/DolarPrice"
-        },
-        "status": {
-          "type": "string"
-        }
-      }
-    },
-    "DolarProm": {
-      "type": "object",
-      "properties": {
-        "dolar_paralelo": {
-          "type": "number"
-        },
-        "referencias": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DolarPrice"
-          }
-        }
-      }
-    },
-    "DolarPromResponse": {
-      "type": "object",
-      "properties": {
-        "data": {
-          "$ref": "#/definitions/DolarProm"
         },
         "status": {
           "type": "string"
@@ -252,12 +252,12 @@ func init() {
         "tags": [
           "Dolar"
         ],
-        "operationId": "GetDolarProm",
+        "operationId": "GetDolarAverage",
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/DolarPromResponse"
+              "$ref": "#/definitions/DolarAverageResponse"
             }
           },
           "default": {
@@ -302,6 +302,31 @@ func init() {
     }
   },
   "definitions": {
+    "DolarAverage": {
+      "type": "object",
+      "properties": {
+        "dolar_paralelo": {
+          "type": "number"
+        },
+        "referencias": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DolarPrice"
+          }
+        }
+      }
+    },
+    "DolarAverageResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/DolarAverage"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
     "DolarPlatform": {
       "type": "object",
       "properties": {
@@ -343,31 +368,6 @@ func init() {
       "properties": {
         "data": {
           "$ref": "#/definitions/DolarPrice"
-        },
-        "status": {
-          "type": "string"
-        }
-      }
-    },
-    "DolarProm": {
-      "type": "object",
-      "properties": {
-        "dolar_paralelo": {
-          "type": "number"
-        },
-        "referencias": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DolarPrice"
-          }
-        }
-      }
-    },
-    "DolarPromResponse": {
-      "type": "object",
-      "properties": {
-        "data": {
-          "$ref": "#/definitions/DolarProm"
         },
         "status": {
           "type": "string"

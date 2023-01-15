@@ -2,10 +2,12 @@ package services
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"strings"
 
 	"github.com/go-redis/redis/v9"
+	"github.com/rootspyro/Dollar-VzlAPI/gen/models"
 )
 
 type DolarServices struct {
@@ -34,4 +36,37 @@ func(impl *DolarServices)ParseFloat(strNum string) float64 {
 	num, _ := strconv.ParseFloat(strNum, 64)
 	
 	return num
+}
+
+func(impl *DolarServices)CalcAverage() (float64, []*models.DolarPrice){
+
+	platforms := []string{
+		"yadio",
+		"airtm",
+		"mkambio",
+		"localbitcoins",
+	}
+
+	var references []*models.DolarPrice
+
+	var accum float64
+
+	for _, p := range platforms {
+		strPrice := impl.GetDolarPrice(p)
+		price := impl.ParseFloat(strPrice)
+		accum += price
+
+		reference := &models.DolarPrice{
+			Plataforma: p,
+			PrecioVes: price,
+		}
+		
+		references = append(references, reference)
+	}
+
+	average := accum / float64(len(platforms))
+	strRounded := fmt.Sprintf("%.2f", average)
+	rounded := impl.ParseFloat(strRounded)
+
+	return rounded, references
 }

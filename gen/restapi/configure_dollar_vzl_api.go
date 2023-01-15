@@ -48,8 +48,8 @@ func configureAPI(api *operations.DollarVzlAPIAPI) http.Handler {
 			return middleware.NotImplemented("operation dolar.GetDolarPrice has not yet been implemented")
 		})
 	}
-	if api.DolarGetDolarPromHandler == nil {
-		api.DolarGetDolarPromHandler = dolar.GetDolarPromHandlerFunc(func(params dolar.GetDolarPromParams) middleware.Responder {
+	if api.DolarGetDolarAverageHandler == nil {
+		api.DolarGetDolarAverageHandler = dolar.GetDolarAverageHandlerFunc(func(params dolar.GetDolarAverageParams) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarProm has not yet been implemented")
 		})
 	}

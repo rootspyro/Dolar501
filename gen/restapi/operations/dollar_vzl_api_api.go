@@ -44,14 +44,14 @@ func NewDollarVzlAPIAPI(spec *loads.Document) *DollarVzlAPIAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
+		DolarGetDolarAverageHandler: dolar.GetDolarAverageHandlerFunc(func(params dolar.GetDolarAverageParams) middleware.Responder {
+			return middleware.NotImplemented("operation dolar.GetDolarAverage has not yet been implemented")
+		}),
 		DolarGetDolarPlatformsHandler: dolar.GetDolarPlatformsHandlerFunc(func(params dolar.GetDolarPlatformsParams) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarPlatforms has not yet been implemented")
 		}),
 		DolarGetDolarPriceHandler: dolar.GetDolarPriceHandlerFunc(func(params dolar.GetDolarPriceParams) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarPrice has not yet been implemented")
-		}),
-		DolarGetDolarPromHandler: dolar.GetDolarPromHandlerFunc(func(params dolar.GetDolarPromParams) middleware.Responder {
-			return middleware.NotImplemented("operation dolar.GetDolarProm has not yet been implemented")
 		}),
 	}
 }
@@ -89,12 +89,12 @@ type DollarVzlAPIAPI struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
+	// DolarGetDolarAverageHandler sets the operation handler for the get dolar average operation
+	DolarGetDolarAverageHandler dolar.GetDolarAverageHandler
 	// DolarGetDolarPlatformsHandler sets the operation handler for the get dolar platforms operation
 	DolarGetDolarPlatformsHandler dolar.GetDolarPlatformsHandler
 	// DolarGetDolarPriceHandler sets the operation handler for the get dolar price operation
 	DolarGetDolarPriceHandler dolar.GetDolarPriceHandler
-	// DolarGetDolarPromHandler sets the operation handler for the get dolar prom operation
-	DolarGetDolarPromHandler dolar.GetDolarPromHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -172,14 +172,14 @@ func (o *DollarVzlAPIAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.DolarGetDolarAverageHandler == nil {
+		unregistered = append(unregistered, "dolar.GetDolarAverageHandler")
+	}
 	if o.DolarGetDolarPlatformsHandler == nil {
 		unregistered = append(unregistered, "dolar.GetDolarPlatformsHandler")
 	}
 	if o.DolarGetDolarPriceHandler == nil {
 		unregistered = append(unregistered, "dolar.GetDolarPriceHandler")
-	}
-	if o.DolarGetDolarPromHandler == nil {
-		unregistered = append(unregistered, "dolar.GetDolarPromHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -272,15 +272,15 @@ func (o *DollarVzlAPIAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
+	o.handlers["GET"]["/dolar/promedio"] = dolar.NewGetDolarAverage(o.context, o.DolarGetDolarAverageHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
 	o.handlers["GET"]["/dolar"] = dolar.NewGetDolarPlatforms(o.context, o.DolarGetDolarPlatformsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/dolar/{plataforma}"] = dolar.NewGetDolarPrice(o.context, o.DolarGetDolarPriceHandler)
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
-	o.handlers["GET"]["/dolar/promedio"] = dolar.NewGetDolarProm(o.context, o.DolarGetDolarPromHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

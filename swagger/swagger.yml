@@ -52,14 +52,14 @@ paths:
   /dolar/promedio:
     get:
       description: Retorna el promedio del dolar paralelo
-      operationId: GetDolarProm
+      operationId: GetDolarAverage 
       tags:
         - Dolar
       responses:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/DolarPromResponse"
+            $ref: "#/definitions/DolarAverageResponse"
         default:
           description: respuesta generica
           schema:
@@ -112,7 +112,7 @@ definitions:
       data:
         $ref: "#/definitions/DolarPrice"
         
-  DolarProm:
+  DolarAverage:
     type: object
     properties:
       dolar_paralelo:
@@ -122,10 +122,10 @@ definitions:
         items:
           $ref: "#/definitions/DolarPrice"
           
-  DolarPromResponse:
+  DolarAverageResponse:
     type: object
     properties:
       status:
         type: string
       data:
-        $ref: "#/definitions/DolarProm"
+        $ref: "#/definitions/DolarAverage"

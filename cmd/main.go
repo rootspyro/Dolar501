@@ -41,6 +41,7 @@ func main(){
 	// handlers setup
 	api.DolarGetDolarPlatformsHandler = handlers.NewGetPlatformsImpl(dolarSrv)
 	api.DolarGetDolarPriceHandler = handlers.NewGetDolarPriceImpl(dolarSrv)
+	api.DolarGetDolarAverageHandler = handlers.NewGetDolarAverageImpl(dolarSrv)
 
 	// server port 
 	port, _ := strconv.Atoi(os.Getenv("PORT"))
