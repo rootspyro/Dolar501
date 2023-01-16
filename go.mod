@@ -12,6 +12,7 @@ require (
 	github.com/go-redis/redis/v9 v9.0.0-rc.2
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.3.0
+	github.com/rs/cors v1.8.3
 	golang.org/x/net v0.5.0
 )
 

@@ -9,6 +9,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/rs/cors"
 
 	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations"
 	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations/dolar"
@@ -86,11 +87,18 @@ func setupGlobalMiddleware(handler http.Handler) http.Handler {
 
 	middlw := middlewares.NewMiddlewares()
 
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowCredentials: true,
+	})
+
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	
 		middlw.RequestLogger(r)
 
 		//Next
-		handler.ServeHTTP(w, r)
+		handler = c.Handler(handler)
+		handler.ServeHTTP(w,r)
+
 	})
 }
