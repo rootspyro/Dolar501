@@ -41,10 +41,8 @@ func(impl *DolarServices)ParseFloat(strNum string) float64 {
 func(impl *DolarServices)CalcAverage() (float64, []*models.DolarPrice){
 
 	platforms := []string{
-		"yadio",
-		"airtm",
-		"mkambio",
-		"localbitcoins",
+		"monitordolar",
+		"enparalelovzla",
 	}
 
 	var references []*models.DolarPrice
