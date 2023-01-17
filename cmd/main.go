@@ -20,7 +20,7 @@ func main(){
 
 	swaggerSpec, _ := loads.Analyzed(restapi.FlatSwaggerJSON, "")
 
-	api := operations.NewDollarVzlAPIAPI(swaggerSpec)
+	api := operations.NewDolar501API(swaggerSpec)
 	server := restapi.NewServer(api)
 
 

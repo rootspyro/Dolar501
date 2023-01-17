@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  title: Dollar-VzlAPI
+  title: Dolar501
   description: API que monitorea el precio del dolar en Venezuela
   version: 1.0.0
   contact:

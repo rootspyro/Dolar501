@@ -21,7 +21,7 @@ func init() {
   "swagger": "2.0",
   "info": {
     "description": "API que monitorea el precio del dolar en Venezuela",
-    "title": "Dollar-VzlAPI",
+    "title": "Dolar501",
     "contact": {
       "name": "Spyridon Mihalopoulos",
       "url": "https://rootspyro.com",
@@ -209,7 +209,7 @@ func init() {
   "swagger": "2.0",
   "info": {
     "description": "API que monitorea el precio del dolar en Venezuela",
-    "title": "Dollar-VzlAPI",
+    "title": "Dolar501",
     "contact": {
       "name": "Spyridon Mihalopoulos",
       "url": "https://rootspyro.com",
