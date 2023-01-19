@@ -19,7 +19,7 @@ func NewGetDolarPriceImpl(s *services.DolarServices) dolar.GetDolarPriceHandler 
 	}
 }
 
-func(impl *GetDolarPriceImpl)Handle(params dolar.GetDolarPriceParams) middleware.Responder {
+func(impl *GetDolarPriceImpl)Handle(params dolar.GetDolarPriceParams, prin interface{}) middleware.Responder {
 	
 	strPrice := impl.srv.GetDolarPrice(params.Plataforma)
 

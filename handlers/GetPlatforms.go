@@ -17,7 +17,7 @@ func NewGetPlatformsImpl(s *services.DolarServices ) dolar.GetDolarPlatformsHand
 	}
 }
 
-func( impl *GetPlatformsImpl )Handle( params dolar.GetDolarPlatformsParams ) middleware.Responder {
+func( impl *GetPlatformsImpl )Handle( params dolar.GetDolarPlatformsParams, prin interface{} ) middleware.Responder {
 	
 	data := impl.srv.GetPlatformsList()
 

@@ -37,6 +37,7 @@ func init() {
   "paths": {
     "/auth/callback": {
       "get": {
+        "security": [],
         "description": "retorna el token de acceso",
         "tags": [
           "Auth"
@@ -68,6 +69,7 @@ func init() {
     },
     "/auth/login": {
       "get": {
+        "security": [],
         "description": "redirige al usuario al inicio de sesion en github",
         "tags": [
           "Auth"
@@ -260,8 +262,24 @@ func init() {
           "type": "string"
         }
       }
+    },
+    "principal": {
+      "type": "string"
     }
   },
+  "securityDefinitions": {
+    "OauthSecurity": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "https://github.com/login/oauth/authorize",
+      "tokenUrl": "https://github.com/login/oauth/access_token"
+    }
+  },
+  "security": [
+    {
+      "OauthSecurity": []
+    }
+  ],
   "tags": [
     {
       "description": "Todos los endpoints relacionados al dolar",
@@ -293,6 +311,7 @@ func init() {
   "paths": {
     "/auth/callback": {
       "get": {
+        "security": [],
         "description": "retorna el token de acceso",
         "tags": [
           "Auth"
@@ -324,6 +343,7 @@ func init() {
     },
     "/auth/login": {
       "get": {
+        "security": [],
         "description": "redirige al usuario al inicio de sesion en github",
         "tags": [
           "Auth"
@@ -524,8 +544,24 @@ func init() {
           "type": "string"
         }
       }
+    },
+    "principal": {
+      "type": "string"
     }
   },
+  "securityDefinitions": {
+    "OauthSecurity": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "https://github.com/login/oauth/authorize",
+      "tokenUrl": "https://github.com/login/oauth/access_token"
+    }
+  },
+  "security": [
+    {
+      "OauthSecurity": []
+    }
+  ],
   "tags": [
     {
       "description": "Todos los endpoints relacionados al dolar",

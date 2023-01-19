@@ -11,11 +11,22 @@ info:
     name: MIT
     url: https://choosealicense.com/licenses/mit/
 basePath: /api/v1
+securityDefinitions:
+  OauthSecurity:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://github.com/login/oauth/authorize
+    tokenUrl: https://github.com/login/oauth/access_token
+
+security:
+  - OauthSecurity: []
+
 paths:  
 
   /auth/login:
     get:
       description: redirige al usuario al inicio de sesion en github
+      security: []
       operationId: AuthLogin
       tags:
         - Auth
@@ -29,6 +40,7 @@ paths:
     get:
       description: retorna el token de acceso
       operationId: GetAuthToken
+      security: []
       parameters:
         - name: code
           type: string
@@ -176,3 +188,5 @@ definitions:
         type: string
       data:
         $ref: "#/definitions/DolarAverage"
+  principal:
+    type: string

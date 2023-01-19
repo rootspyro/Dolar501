@@ -17,7 +17,7 @@ func NewGetDolarAverageImpl(s *services.DolarServices) dolar.GetDolarAverageHand
 	}
 }
 
-func(impl *GetDolarAverageImpl)Handle(params dolar.GetDolarAverageParams) middleware.Responder{
+func(impl *GetDolarAverageImpl)Handle(params dolar.GetDolarAverageParams, prin interface{}) middleware.Responder{
 
 	dollar, references := impl.srv.CalcAverage()
 

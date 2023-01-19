@@ -78,13 +78,14 @@ func( s *AuthServices )GetAccessToken(code string) string {
 
 func( s *AuthServices )ValidateToken( token string ) (bool, error) {
 
+	bearToken := "Bearer " + token
 	req, err := http.NewRequest("GET", s.ghAuth.UserURL, nil)
 	if err != nil {
 		log.Println(err.Error())
 		return false, err
 	}
 
-	req.Header.Set("Authorization", token)	
+	req.Header.Set("Authorization", bearToken)	
 
 	result, err := http.DefaultClient.Do(req)
 
