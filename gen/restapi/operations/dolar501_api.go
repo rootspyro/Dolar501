@@ -19,7 +19,8 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations/dolar"
+	"github.com/rootspyro/Dolar501/gen/restapi/operations/auth"
+	"github.com/rootspyro/Dolar501/gen/restapi/operations/dolar"
 )
 
 // NewDolar501API creates a new Dolar501 instance
@@ -44,6 +45,12 @@ func NewDolar501API(spec *loads.Document) *Dolar501API {
 
 		JSONProducer: runtime.JSONProducer(),
 
+		AuthAuthLoginHandler: auth.AuthLoginHandlerFunc(func(params auth.AuthLoginParams) middleware.Responder {
+			return middleware.NotImplemented("operation auth.AuthLogin has not yet been implemented")
+		}),
+		AuthGetAuthTokenHandler: auth.GetAuthTokenHandlerFunc(func(params auth.GetAuthTokenParams) middleware.Responder {
+			return middleware.NotImplemented("operation auth.GetAuthToken has not yet been implemented")
+		}),
 		DolarGetDolarAverageHandler: dolar.GetDolarAverageHandlerFunc(func(params dolar.GetDolarAverageParams) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarAverage has not yet been implemented")
 		}),
@@ -89,6 +96,10 @@ type Dolar501API struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
+	// AuthAuthLoginHandler sets the operation handler for the auth login operation
+	AuthAuthLoginHandler auth.AuthLoginHandler
+	// AuthGetAuthTokenHandler sets the operation handler for the get auth token operation
+	AuthGetAuthTokenHandler auth.GetAuthTokenHandler
 	// DolarGetDolarAverageHandler sets the operation handler for the get dolar average operation
 	DolarGetDolarAverageHandler dolar.GetDolarAverageHandler
 	// DolarGetDolarPlatformsHandler sets the operation handler for the get dolar platforms operation
@@ -172,6 +183,12 @@ func (o *Dolar501API) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.AuthAuthLoginHandler == nil {
+		unregistered = append(unregistered, "auth.AuthLoginHandler")
+	}
+	if o.AuthGetAuthTokenHandler == nil {
+		unregistered = append(unregistered, "auth.GetAuthTokenHandler")
+	}
 	if o.DolarGetDolarAverageHandler == nil {
 		unregistered = append(unregistered, "dolar.GetDolarAverageHandler")
 	}
@@ -269,6 +286,14 @@ func (o *Dolar501API) initHandlerCache() {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
 
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/auth/login"] = auth.NewAuthLogin(o.context, o.AuthAuthLoginHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/auth/callback"] = auth.NewGetAuthToken(o.context, o.AuthGetAuthTokenHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

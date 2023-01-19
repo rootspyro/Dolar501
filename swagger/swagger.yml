@@ -12,6 +12,40 @@ info:
     url: https://choosealicense.com/licenses/mit/
 basePath: /api/v1
 paths:  
+
+  /auth/login:
+    get:
+      description: redirige al usuario al inicio de sesion en github
+      operationId: AuthLogin
+      tags:
+        - Auth
+      responses:
+        default:
+          description: respuesta generica
+          schema:
+            $ref: "#/definitions/default"
+
+  /auth/callback:
+    get:
+      description: retorna el token de acceso
+      operationId: GetAuthToken
+      parameters:
+        - name: code
+          type: string
+          in: query
+          required: true
+      tags:
+        - Auth
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/AccessResponse"
+        default:
+          description: respuesta generica
+          schema:
+            $ref: "#/definitions/default"
+
   /dolar:
     get:
       description: Retorna la lista de plataformas del precio del dolar
@@ -68,6 +102,8 @@ paths:
 tags: 
   - name: Dolar
     description: Todos los endpoints relacionados al dolar
+  - name: Auth
+    description: Todos los endpoints relacionados a la autenticacion del usuario
 definitions: 
 
   default:
@@ -77,6 +113,17 @@ definitions:
         type: string
       data:
         type: string
+
+  AccessResponse:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: object
+        properties:
+          access_token:
+            type: string
 
   DolarPlatform:
     type: object

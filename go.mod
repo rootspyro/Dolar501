@@ -1,4 +1,4 @@
-module github.com/rootspyro/Dollar-VzlAPI
+module github.com/rootspyro/Dolar501
 
 go 1.19
 

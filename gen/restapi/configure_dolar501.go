@@ -11,9 +11,9 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/rs/cors"
 
-	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations"
-	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations/dolar"
-	"github.com/rootspyro/Dollar-VzlAPI/middlewares"
+	"github.com/rootspyro/Dolar501/gen/restapi/operations"
+	"github.com/rootspyro/Dolar501/gen/restapi/operations/dolar"
+	"github.com/rootspyro/Dolar501/middlewares"
 )
 
 //go:generate swagger generate server --target ../../gen --name Dolar501 --spec ../../swagger/swagger.yml --principal interface{} --exclude-main

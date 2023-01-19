@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/rootspyro/Dollar-VzlAPI/gen/models"
-	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations/dolar"
-	"github.com/rootspyro/Dollar-VzlAPI/services"
+	"github.com/rootspyro/Dolar501/gen/models"
+	"github.com/rootspyro/Dolar501/gen/restapi/operations/dolar"
+	"github.com/rootspyro/Dolar501/services"
 )
 
 type GetDolarAverageImpl struct {
@@ -20,6 +20,7 @@ func NewGetDolarAverageImpl(s *services.DolarServices) dolar.GetDolarAverageHand
 func(impl *GetDolarAverageImpl)Handle(params dolar.GetDolarAverageParams) middleware.Responder{
 
 	dollar, references := impl.srv.CalcAverage()
+
 
 	data := &models.DolarAverage{
 		DolarParalelo: dollar,
