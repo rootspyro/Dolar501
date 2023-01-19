@@ -75,3 +75,35 @@ func( s *AuthServices )GetAccessToken(code string) string {
 	// details are relatively unnecessary for us)
 	return ghresp.AccessToken
 }
+
+func( s *AuthServices )ValidateToken( token string ) (bool, error) {
+
+	req, err := http.NewRequest("GET", s.ghAuth.UserURL, nil)
+	if err != nil {
+		log.Println(err.Error())
+		return false, err
+	}
+
+	req.Header.Set("Authorization", token)	
+
+	result, err := http.DefaultClient.Do(req)
+
+	if err != nil {
+		log.Println(err.Error())
+		return false, err
+	}
+
+	defer result.Body.Close()
+
+	_, err = ioutil.ReadAll(result.Body)
+
+	if err != nil {
+		return false, err
+	}
+
+	if result.StatusCode != 200 {
+		return false, nil
+	}
+
+	return true, nil 
+}
