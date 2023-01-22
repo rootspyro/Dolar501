@@ -24,7 +24,7 @@ import (
 	flags "github.com/jessevdk/go-flags"
 	"golang.org/x/net/netutil"
 
-	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations"
+	"github.com/rootspyro/Dolar501/gen/restapi/operations"
 )
 
 const (

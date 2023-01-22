@@ -19,7 +19,8 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations/dolar"
+	"github.com/rootspyro/Dolar501/gen/restapi/operations/auth"
+	"github.com/rootspyro/Dolar501/gen/restapi/operations/dolar"
 )
 
 // NewDolar501API creates a new Dolar501 instance
@@ -44,15 +45,27 @@ func NewDolar501API(spec *loads.Document) *Dolar501API {
 
 		JSONProducer: runtime.JSONProducer(),
 
-		DolarGetDolarAverageHandler: dolar.GetDolarAverageHandlerFunc(func(params dolar.GetDolarAverageParams) middleware.Responder {
+		AuthAuthLoginHandler: auth.AuthLoginHandlerFunc(func(params auth.AuthLoginParams) middleware.Responder {
+			return middleware.NotImplemented("operation auth.AuthLogin has not yet been implemented")
+		}),
+		AuthGetAuthTokenHandler: auth.GetAuthTokenHandlerFunc(func(params auth.GetAuthTokenParams) middleware.Responder {
+			return middleware.NotImplemented("operation auth.GetAuthToken has not yet been implemented")
+		}),
+		DolarGetDolarAverageHandler: dolar.GetDolarAverageHandlerFunc(func(params dolar.GetDolarAverageParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarAverage has not yet been implemented")
 		}),
-		DolarGetDolarPlatformsHandler: dolar.GetDolarPlatformsHandlerFunc(func(params dolar.GetDolarPlatformsParams) middleware.Responder {
+		DolarGetDolarPlatformsHandler: dolar.GetDolarPlatformsHandlerFunc(func(params dolar.GetDolarPlatformsParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarPlatforms has not yet been implemented")
 		}),
-		DolarGetDolarPriceHandler: dolar.GetDolarPriceHandlerFunc(func(params dolar.GetDolarPriceParams) middleware.Responder {
+		DolarGetDolarPriceHandler: dolar.GetDolarPriceHandlerFunc(func(params dolar.GetDolarPriceParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarPrice has not yet been implemented")
 		}),
+
+		OauthSecurityAuth: func(token string, scopes []string) (interface{}, error) {
+			return nil, errors.NotImplemented("oauth2 bearer auth (OauthSecurity) has not yet been implemented")
+		},
+		// default authorizer is authorized meaning no requests are blocked
+		APIAuthorizer: security.Authorized(),
 	}
 }
 
@@ -89,6 +102,17 @@ type Dolar501API struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
+	// OauthSecurityAuth registers a function that takes an access token and a collection of required scopes and returns a principal
+	// it performs authentication based on an oauth2 bearer token provided in the request
+	OauthSecurityAuth func(string, []string) (interface{}, error)
+
+	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
+	APIAuthorizer runtime.Authorizer
+
+	// AuthAuthLoginHandler sets the operation handler for the auth login operation
+	AuthAuthLoginHandler auth.AuthLoginHandler
+	// AuthGetAuthTokenHandler sets the operation handler for the get auth token operation
+	AuthGetAuthTokenHandler auth.GetAuthTokenHandler
 	// DolarGetDolarAverageHandler sets the operation handler for the get dolar average operation
 	DolarGetDolarAverageHandler dolar.GetDolarAverageHandler
 	// DolarGetDolarPlatformsHandler sets the operation handler for the get dolar platforms operation
@@ -172,6 +196,16 @@ func (o *Dolar501API) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.OauthSecurityAuth == nil {
+		unregistered = append(unregistered, "OauthSecurityAuth")
+	}
+
+	if o.AuthAuthLoginHandler == nil {
+		unregistered = append(unregistered, "auth.AuthLoginHandler")
+	}
+	if o.AuthGetAuthTokenHandler == nil {
+		unregistered = append(unregistered, "auth.GetAuthTokenHandler")
+	}
 	if o.DolarGetDolarAverageHandler == nil {
 		unregistered = append(unregistered, "dolar.GetDolarAverageHandler")
 	}
@@ -196,12 +230,20 @@ func (o *Dolar501API) ServeErrorFor(operationID string) func(http.ResponseWriter
 
 // AuthenticatorsFor gets the authenticators for the specified security schemes
 func (o *Dolar501API) AuthenticatorsFor(schemes map[string]spec.SecurityScheme) map[string]runtime.Authenticator {
-	return nil
+	result := make(map[string]runtime.Authenticator)
+	for name := range schemes {
+		switch name {
+		case "OauthSecurity":
+			result[name] = o.BearerAuthenticator(name, o.OauthSecurityAuth)
+
+		}
+	}
+	return result
 }
 
 // Authorizer returns the registered authorizer
 func (o *Dolar501API) Authorizer() runtime.Authorizer {
-	return nil
+	return o.APIAuthorizer
 }
 
 // ConsumersFor gets the consumers for the specified media types.
@@ -269,6 +311,14 @@ func (o *Dolar501API) initHandlerCache() {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
 
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/auth/login"] = auth.NewAuthLogin(o.context, o.AuthAuthLoginHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/auth/callback"] = auth.NewGetAuthToken(o.context, o.AuthGetAuthTokenHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

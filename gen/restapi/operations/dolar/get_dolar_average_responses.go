@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	"github.com/rootspyro/Dollar-VzlAPI/gen/models"
+	"github.com/rootspyro/Dolar501/gen/models"
 )
 
 // GetDolarAverageOKCode is the HTTP code returned for type GetDolarAverageOK

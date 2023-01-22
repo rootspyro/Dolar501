@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/rootspyro/Dollar-VzlAPI/gen/models"
-	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations/dolar"
-	"github.com/rootspyro/Dollar-VzlAPI/services"
+	"github.com/rootspyro/Dolar501/gen/models"
+	"github.com/rootspyro/Dolar501/gen/restapi/operations/dolar"
+	"github.com/rootspyro/Dolar501/services"
 )
 
 type GetPlatformsImpl struct {
@@ -17,7 +17,7 @@ func NewGetPlatformsImpl(s *services.DolarServices ) dolar.GetDolarPlatformsHand
 	}
 }
 
-func( impl *GetPlatformsImpl )Handle( params dolar.GetDolarPlatformsParams ) middleware.Responder {
+func( impl *GetPlatformsImpl )Handle( params dolar.GetDolarPlatformsParams, prin interface{} ) middleware.Responder {
 	
 	data := impl.srv.GetPlatformsList()
 

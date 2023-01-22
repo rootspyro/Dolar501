@@ -11,9 +11,9 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/rs/cors"
 
-	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations"
-	"github.com/rootspyro/Dollar-VzlAPI/gen/restapi/operations/dolar"
-	"github.com/rootspyro/Dollar-VzlAPI/middlewares"
+	"github.com/rootspyro/Dolar501/gen/restapi/operations"
+	"github.com/rootspyro/Dolar501/gen/restapi/operations/dolar"
+	"github.com/rootspyro/Dolar501/middlewares"
 )
 
 //go:generate swagger generate server --target ../../gen --name Dolar501 --spec ../../swagger/swagger.yml --principal interface{} --exclude-main
@@ -41,17 +41,17 @@ func configureAPI(api *operations.Dolar501API) http.Handler {
 	api.JSONProducer = runtime.JSONProducer()
 
 	if api.DolarGetDolarAverageHandler == nil {
-		api.DolarGetDolarAverageHandler = dolar.GetDolarAverageHandlerFunc(func(params dolar.GetDolarAverageParams) middleware.Responder {
+		api.DolarGetDolarAverageHandler = dolar.GetDolarAverageHandlerFunc(func(params dolar.GetDolarAverageParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarAverage has not yet been implemented")
 		})
 	}
 	if api.DolarGetDolarPlatformsHandler == nil {
-		api.DolarGetDolarPlatformsHandler = dolar.GetDolarPlatformsHandlerFunc(func(params dolar.GetDolarPlatformsParams) middleware.Responder {
+		api.DolarGetDolarPlatformsHandler = dolar.GetDolarPlatformsHandlerFunc(func(params dolar.GetDolarPlatformsParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarPlatforms has not yet been implemented")
 		})
 	}
 	if api.DolarGetDolarPriceHandler == nil {
-		api.DolarGetDolarPriceHandler = dolar.GetDolarPriceHandlerFunc(func(params dolar.GetDolarPriceParams) middleware.Responder {
+		api.DolarGetDolarPriceHandler = dolar.GetDolarPriceHandlerFunc(func(params dolar.GetDolarPriceParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarPrice has not yet been implemented")
 		})
 	}

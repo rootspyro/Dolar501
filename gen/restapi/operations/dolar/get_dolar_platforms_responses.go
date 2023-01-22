@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	"github.com/rootspyro/Dollar-VzlAPI/gen/models"
+	"github.com/rootspyro/Dolar501/gen/models"
 )
 
 // GetDolarPlatformsOKCode is the HTTP code returned for type GetDolarPlatformsOK

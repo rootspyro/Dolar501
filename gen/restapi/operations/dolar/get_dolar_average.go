@@ -12,16 +12,16 @@ import (
 )
 
 // GetDolarAverageHandlerFunc turns a function with the right signature into a get dolar average handler
-type GetDolarAverageHandlerFunc func(GetDolarAverageParams) middleware.Responder
+type GetDolarAverageHandlerFunc func(GetDolarAverageParams, interface{}) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn GetDolarAverageHandlerFunc) Handle(params GetDolarAverageParams) middleware.Responder {
-	return fn(params)
+func (fn GetDolarAverageHandlerFunc) Handle(params GetDolarAverageParams, principal interface{}) middleware.Responder {
+	return fn(params, principal)
 }
 
 // GetDolarAverageHandler interface for that can handle valid get dolar average params
 type GetDolarAverageHandler interface {
-	Handle(GetDolarAverageParams) middleware.Responder
+	Handle(GetDolarAverageParams, interface{}) middleware.Responder
 }
 
 // NewGetDolarAverage creates a new http.Handler for the get dolar average operation
@@ -45,12 +45,25 @@ func (o *GetDolarAverage) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		*r = *rCtx
 	}
 	var Params = NewGetDolarAverageParams()
+	uprinc, aCtx, err := o.Context.Authorize(r, route)
+	if err != nil {
+		o.Context.Respond(rw, r, route.Produces, route, err)
+		return
+	}
+	if aCtx != nil {
+		*r = *aCtx
+	}
+	var principal interface{}
+	if uprinc != nil {
+		principal = uprinc.(interface{}) // this is really a interface{}, I promise
+	}
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
-	res := o.Handler.Handle(Params) // actually handle the request
+	res := o.Handler.Handle(Params, principal) // actually handle the request
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

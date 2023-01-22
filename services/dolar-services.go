@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/go-redis/redis/v9"
-	"github.com/rootspyro/Dollar-VzlAPI/gen/models"
+	"github.com/rootspyro/Dolar501/gen/models"
 )
 
 type DolarServices struct {

@@ -35,6 +35,56 @@ func init() {
   },
   "basePath": "/api/v1",
   "paths": {
+    "/auth/callback": {
+      "get": {
+        "security": [],
+        "description": "retorna el token de acceso",
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "GetAuthToken",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "code",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AccessResponse"
+            }
+          },
+          "default": {
+            "description": "respuesta generica",
+            "schema": {
+              "$ref": "#/definitions/default"
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "get": {
+        "security": [],
+        "description": "redirige al usuario al inicio de sesion en github",
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "AuthLogin",
+        "responses": {
+          "default": {
+            "description": "respuesta generica",
+            "schema": {
+              "$ref": "#/definitions/default"
+            }
+          }
+        }
+      }
+    },
     "/dolar": {
       "get": {
         "description": "Retorna la lista de plataformas del precio del dolar",
@@ -114,6 +164,22 @@ func init() {
     }
   },
   "definitions": {
+    "AccessResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string"
+            }
+          }
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
     "DolarAverage": {
       "type": "object",
       "properties": {
@@ -196,12 +262,32 @@ func init() {
           "type": "string"
         }
       }
+    },
+    "principal": {
+      "type": "string"
     }
   },
+  "securityDefinitions": {
+    "OauthSecurity": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "https://github.com/login/oauth/authorize",
+      "tokenUrl": "https://github.com/login/oauth/access_token"
+    }
+  },
+  "security": [
+    {
+      "OauthSecurity": []
+    }
+  ],
   "tags": [
     {
       "description": "Todos los endpoints relacionados al dolar",
       "name": "Dolar"
+    },
+    {
+      "description": "Todos los endpoints relacionados a la autenticacion del usuario",
+      "name": "Auth"
     }
   ]
 }`))
@@ -223,6 +309,56 @@ func init() {
   },
   "basePath": "/api/v1",
   "paths": {
+    "/auth/callback": {
+      "get": {
+        "security": [],
+        "description": "retorna el token de acceso",
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "GetAuthToken",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "code",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AccessResponse"
+            }
+          },
+          "default": {
+            "description": "respuesta generica",
+            "schema": {
+              "$ref": "#/definitions/default"
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "get": {
+        "security": [],
+        "description": "redirige al usuario al inicio de sesion en github",
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "AuthLogin",
+        "responses": {
+          "default": {
+            "description": "respuesta generica",
+            "schema": {
+              "$ref": "#/definitions/default"
+            }
+          }
+        }
+      }
+    },
     "/dolar": {
       "get": {
         "description": "Retorna la lista de plataformas del precio del dolar",
@@ -302,6 +438,30 @@ func init() {
     }
   },
   "definitions": {
+    "AccessResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string"
+            }
+          }
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "AccessResponseData": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string"
+        }
+      }
+    },
     "DolarAverage": {
       "type": "object",
       "properties": {
@@ -384,12 +544,32 @@ func init() {
           "type": "string"
         }
       }
+    },
+    "principal": {
+      "type": "string"
     }
   },
+  "securityDefinitions": {
+    "OauthSecurity": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "https://github.com/login/oauth/authorize",
+      "tokenUrl": "https://github.com/login/oauth/access_token"
+    }
+  },
+  "security": [
+    {
+      "OauthSecurity": []
+    }
+  ],
   "tags": [
     {
       "description": "Todos los endpoints relacionados al dolar",
       "name": "Dolar"
+    },
+    {
+      "description": "Todos los endpoints relacionados a la autenticacion del usuario",
+      "name": "Auth"
     }
   ]
 }`))
