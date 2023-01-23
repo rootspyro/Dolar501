@@ -88,6 +88,7 @@ func setupGlobalMiddleware(handler http.Handler) http.Handler {
 
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
+		AllowedHeaders: []string{"Origin","Content-Type", "Authorization"},
 		AllowCredentials: true,
 	})
 
