@@ -4,6 +4,8 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/awslabs/aws-lambda-go-api-proxy/httpadapter"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/loads"
 	"github.com/go-redis/redis/v9"
@@ -73,5 +75,7 @@ func main(){
 
 	server.ConfigureAPI()
 
-	server.Serve()
+	adapter := httpadapter.New(server.GetHandler())
+	lambda.Start(adapter.Proxy)
+
 }
