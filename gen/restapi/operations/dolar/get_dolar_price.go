@@ -30,7 +30,7 @@ func NewGetDolarPrice(ctx *middleware.Context, handler GetDolarPriceHandler) *Ge
 }
 
 /*
-	GetDolarPrice swagger:route GET /dolar/{plataforma} Dolar getDolarPrice
+	GetDolarPrice swagger:route GET /dolar/{moneda}/{plataforma} Dolar getDolarPrice
 
 Retorna el precio del dolar en la plataforma indicada
 */

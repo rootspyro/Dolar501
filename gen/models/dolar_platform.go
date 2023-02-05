@@ -22,6 +22,9 @@ type DolarPlatform struct {
 
 	// plataforma
 	Plataforma string `json:"plataforma,omitempty"`
+
+	// precio
+	Precio float64 `json:"precio,omitempty"`
 }
 
 // Validate validates this dolar platform

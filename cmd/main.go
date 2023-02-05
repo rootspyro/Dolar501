@@ -61,9 +61,9 @@ func main(){
 	}
 
 	// handlers setup
-	api.DolarGetDolarPlatformsHandler = handlers.NewGetPlatformsImpl(dolarSrv)
+	api.DolarGetDolarCurrenciesHandler= handlers.NewGetCurrenciesImpl(dolarSrv)
+	api.DolarGetCurrencyPlatformsHandler = handlers.NewGetPlatformsImpl(dolarSrv)
 	api.DolarGetDolarPriceHandler = handlers.NewGetDolarPriceImpl(dolarSrv)
-	api.DolarGetDolarAverageHandler = handlers.NewGetDolarAverageImpl(dolarSrv)
 	api.AuthAuthLoginHandler = handlers.NewLoginImpl(gh)
 	api.AuthGetAuthTokenHandler = handlers.NewCallbackImpl(gh, authSrv)
 

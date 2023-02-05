@@ -14,6 +14,7 @@ import (
 
 // GetDolarPriceURL generates an URL for the get dolar price operation
 type GetDolarPriceURL struct {
+	Moneda     string
 	Plataforma string
 
 	_basePath string
@@ -40,7 +41,14 @@ func (o *GetDolarPriceURL) SetBasePath(bp string) {
 func (o *GetDolarPriceURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/dolar/{plataforma}"
+	var _path = "/dolar/{moneda}/{plataforma}"
+
+	moneda := o.Moneda
+	if moneda != "" {
+		_path = strings.Replace(_path, "{moneda}", moneda, -1)
+	} else {
+		return nil, errors.New("moneda is required on GetDolarPriceURL")
+	}
 
 	plataforma := o.Plataforma
 	if plataforma != "" {

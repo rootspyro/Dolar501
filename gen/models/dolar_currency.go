@@ -12,33 +12,30 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// DolarPrice dolar price
+// DolarCurrency dolar currency
 //
-// swagger:model DolarPrice
-type DolarPrice struct {
+// swagger:model DolarCurrency
+type DolarCurrency struct {
+
+	// endpoint
+	Endpoint string `json:"endpoint,omitempty"`
 
 	// moneda
 	Moneda string `json:"moneda,omitempty"`
-
-	// plataforma
-	Plataforma string `json:"plataforma,omitempty"`
-
-	// precio
-	Precio float64 `json:"precio,omitempty"`
 }
 
-// Validate validates this dolar price
-func (m *DolarPrice) Validate(formats strfmt.Registry) error {
+// Validate validates this dolar currency
+func (m *DolarCurrency) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validates this dolar price based on context it is used
-func (m *DolarPrice) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validates this dolar currency based on context it is used
+func (m *DolarCurrency) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
 // MarshalBinary interface implementation
-func (m *DolarPrice) MarshalBinary() ([]byte, error) {
+func (m *DolarCurrency) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -46,8 +43,8 @@ func (m *DolarPrice) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *DolarPrice) UnmarshalBinary(b []byte) error {
-	var res DolarPrice
+func (m *DolarCurrency) UnmarshalBinary(b []byte) error {
+	var res DolarCurrency
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

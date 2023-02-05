@@ -9,17 +9,22 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
+	"strings"
 )
 
-// GetDolarPlatformsURL generates an URL for the get dolar platforms operation
-type GetDolarPlatformsURL struct {
+// GetCurrencyPlatformsURL generates an URL for the get currency platforms operation
+type GetCurrencyPlatformsURL struct {
+	Moneda string
+
 	_basePath string
+	// avoid unkeyed usage
+	_ struct{}
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *GetDolarPlatformsURL) WithBasePath(bp string) *GetDolarPlatformsURL {
+func (o *GetCurrencyPlatformsURL) WithBasePath(bp string) *GetCurrencyPlatformsURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -27,15 +32,22 @@ func (o *GetDolarPlatformsURL) WithBasePath(bp string) *GetDolarPlatformsURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *GetDolarPlatformsURL) SetBasePath(bp string) {
+func (o *GetCurrencyPlatformsURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *GetDolarPlatformsURL) Build() (*url.URL, error) {
+func (o *GetCurrencyPlatformsURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/dolar"
+	var _path = "/dolar/{moneda}"
+
+	moneda := o.Moneda
+	if moneda != "" {
+		_path = strings.Replace(_path, "{moneda}", moneda, -1)
+	} else {
+		return nil, errors.New("moneda is required on GetCurrencyPlatformsURL")
+	}
 
 	_basePath := o._basePath
 	if _basePath == "" {
@@ -47,7 +59,7 @@ func (o *GetDolarPlatformsURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *GetDolarPlatformsURL) Must(u *url.URL, err error) *url.URL {
+func (o *GetCurrencyPlatformsURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -58,17 +70,17 @@ func (o *GetDolarPlatformsURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *GetDolarPlatformsURL) String() string {
+func (o *GetCurrencyPlatformsURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *GetDolarPlatformsURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *GetCurrencyPlatformsURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on GetDolarPlatformsURL")
+		return nil, errors.New("scheme is required for a full url on GetCurrencyPlatformsURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on GetDolarPlatformsURL")
+		return nil, errors.New("host is required for a full url on GetCurrencyPlatformsURL")
 	}
 
 	base, err := o.Build()
@@ -82,6 +94,6 @@ func (o *GetDolarPlatformsURL) BuildFull(scheme, host string) (*url.URL, error) 
 }
 
 // StringFull returns the string representation of a complete url
-func (o *GetDolarPlatformsURL) StringFull(scheme, host string) string {
+func (o *GetCurrencyPlatformsURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }
