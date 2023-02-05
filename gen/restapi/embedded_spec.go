@@ -87,11 +87,42 @@ func init() {
     },
     "/dolar": {
       "get": {
-        "description": "Retorna la lista de plataformas del precio del dolar",
+        "description": "Retorna la lista de monedas que monitorea la API",
         "tags": [
           "Dolar"
         ],
-        "operationId": "GetDolarPlatforms",
+        "operationId": "GetDolarCurrencies",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DolarCurrencies"
+            }
+          },
+          "default": {
+            "description": "respuesta generica",
+            "schema": {
+              "$ref": "#/definitions/default"
+            }
+          }
+        }
+      }
+    },
+    "/dolar/{moneda}": {
+      "get": {
+        "description": "Retorna la lista de plataformas del precio del dolar en dicha moneda",
+        "tags": [
+          "Dolar"
+        ],
+        "operationId": "GetCurrencyPlatforms",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "moneda",
+            "in": "path",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -108,30 +139,7 @@ func init() {
         }
       }
     },
-    "/dolar/promedio": {
-      "get": {
-        "description": "Retorna el promedio del dolar paralelo",
-        "tags": [
-          "Dolar"
-        ],
-        "operationId": "GetDolarAverage",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/DolarAverageResponse"
-            }
-          },
-          "default": {
-            "description": "respuesta generica",
-            "schema": {
-              "$ref": "#/definitions/default"
-            }
-          }
-        }
-      }
-    },
-    "/dolar/{plataforma}": {
+    "/dolar/{moneda}/{plataforma}": {
       "get": {
         "description": "Retorna el precio del dolar en la plataforma indicada",
         "tags": [
@@ -142,6 +150,12 @@ func init() {
           {
             "type": "string",
             "name": "plataforma",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "moneda",
             "in": "path",
             "required": true
           }
@@ -180,27 +194,27 @@ func init() {
         }
       }
     },
-    "DolarAverage": {
-      "type": "object",
-      "properties": {
-        "dolar_paralelo": {
-          "type": "number"
-        },
-        "referencias": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DolarPrice"
-          }
-        }
-      }
-    },
-    "DolarAverageResponse": {
+    "DolarCurrencies": {
       "type": "object",
       "properties": {
         "data": {
-          "$ref": "#/definitions/DolarAverage"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DolarCurrency"
+          }
         },
         "status": {
+          "type": "string"
+        }
+      }
+    },
+    "DolarCurrency": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "moneda": {
           "type": "string"
         }
       }
@@ -213,6 +227,9 @@ func init() {
         },
         "plataforma": {
           "type": "string"
+        },
+        "precio": {
+          "type": "number"
         }
       }
     },
@@ -233,10 +250,13 @@ func init() {
     "DolarPrice": {
       "type": "object",
       "properties": {
+        "moneda": {
+          "type": "string"
+        },
         "plataforma": {
           "type": "string"
         },
-        "precio_ves": {
+        "precio": {
           "type": "number"
         }
       }
@@ -361,11 +381,42 @@ func init() {
     },
     "/dolar": {
       "get": {
-        "description": "Retorna la lista de plataformas del precio del dolar",
+        "description": "Retorna la lista de monedas que monitorea la API",
         "tags": [
           "Dolar"
         ],
-        "operationId": "GetDolarPlatforms",
+        "operationId": "GetDolarCurrencies",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DolarCurrencies"
+            }
+          },
+          "default": {
+            "description": "respuesta generica",
+            "schema": {
+              "$ref": "#/definitions/default"
+            }
+          }
+        }
+      }
+    },
+    "/dolar/{moneda}": {
+      "get": {
+        "description": "Retorna la lista de plataformas del precio del dolar en dicha moneda",
+        "tags": [
+          "Dolar"
+        ],
+        "operationId": "GetCurrencyPlatforms",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "moneda",
+            "in": "path",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -382,30 +433,7 @@ func init() {
         }
       }
     },
-    "/dolar/promedio": {
-      "get": {
-        "description": "Retorna el promedio del dolar paralelo",
-        "tags": [
-          "Dolar"
-        ],
-        "operationId": "GetDolarAverage",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/DolarAverageResponse"
-            }
-          },
-          "default": {
-            "description": "respuesta generica",
-            "schema": {
-              "$ref": "#/definitions/default"
-            }
-          }
-        }
-      }
-    },
-    "/dolar/{plataforma}": {
+    "/dolar/{moneda}/{plataforma}": {
       "get": {
         "description": "Retorna el precio del dolar en la plataforma indicada",
         "tags": [
@@ -416,6 +444,12 @@ func init() {
           {
             "type": "string",
             "name": "plataforma",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "moneda",
             "in": "path",
             "required": true
           }
@@ -462,27 +496,27 @@ func init() {
         }
       }
     },
-    "DolarAverage": {
-      "type": "object",
-      "properties": {
-        "dolar_paralelo": {
-          "type": "number"
-        },
-        "referencias": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DolarPrice"
-          }
-        }
-      }
-    },
-    "DolarAverageResponse": {
+    "DolarCurrencies": {
       "type": "object",
       "properties": {
         "data": {
-          "$ref": "#/definitions/DolarAverage"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DolarCurrency"
+          }
         },
         "status": {
+          "type": "string"
+        }
+      }
+    },
+    "DolarCurrency": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "moneda": {
           "type": "string"
         }
       }
@@ -495,6 +529,9 @@ func init() {
         },
         "plataforma": {
           "type": "string"
+        },
+        "precio": {
+          "type": "number"
         }
       }
     },
@@ -515,10 +552,13 @@ func init() {
     "DolarPrice": {
       "type": "object",
       "properties": {
+        "moneda": {
+          "type": "string"
+        },
         "plataforma": {
           "type": "string"
         },
-        "precio_ves": {
+        "precio": {
           "type": "number"
         }
       }

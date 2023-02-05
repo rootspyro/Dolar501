@@ -60,10 +60,32 @@ paths:
 
   /dolar:
     get:
-      description: Retorna la lista de plataformas del precio del dolar
-      operationId: GetDolarPlatforms
+      description: Retorna la lista de monedas que monitorea la API
+      operationId: GetDolarCurrencies
       tags:
         - Dolar
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/DolarCurrencies"
+        default:
+          description: respuesta generica
+          schema: 
+            $ref: "#/definitions/default"
+            
+
+  /dolar/{moneda}:
+    get:
+      description: Retorna la lista de plataformas del precio del dolar en dicha moneda
+      operationId: GetCurrencyPlatforms
+      tags:
+        - Dolar
+      parameters:
+        - name: moneda
+          type: string
+          required: true
+          in: path
       responses:
         200:
           description: OK
@@ -71,15 +93,21 @@ paths:
             $ref: "#/definitions/DolarPlatforms"
         default:
           description: respuesta generica
-          schema: 
+          schema:
             $ref: "#/definitions/default"
-            
-  /dolar/{plataforma}:
+        
+        
+  /dolar/{moneda}/{plataforma}:
     get:
       description: Retorna el precio del dolar en la plataforma indicada
       operationId: GetDolarPrice
       parameters:
         - name: plataforma
+          type: string
+          required: true
+          in: path
+          
+        - name: moneda
           type: string
           required: true
           in: path
@@ -93,22 +121,6 @@ paths:
         default:
           description: respuesta generica
           schema: 
-            $ref: "#/definitions/default"
-            
-  /dolar/promedio:
-    get:
-      description: Retorna el promedio del dolar paralelo
-      operationId: GetDolarAverage 
-      tags:
-        - Dolar
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: "#/definitions/DolarAverageResponse"
-        default:
-          description: respuesta generica
-          schema:
             $ref: "#/definitions/default"
       
 tags: 
@@ -136,12 +148,32 @@ definitions:
         properties:
           access_token:
             type: string
-
+  
+  DolarCurrencies:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/DolarCurrency"
+        
+  DolarCurrency:
+    type: object
+    properties:
+      moneda:
+        type: string
+      endpoint:
+        type: string
+  
   DolarPlatform:
     type: object
     properties:
       plataforma:
         type: string
+      precio:
+        type: number 
       endpoint:
         type: string
         
@@ -160,8 +192,10 @@ definitions:
     properties:
       plataforma:
         type: string
-      precio_ves:
+      precio:
         type: number
+      moneda:
+        type: string
         
   DolarPriceResponse:
     type: object
@@ -170,23 +204,7 @@ definitions:
         type: string
       data:
         $ref: "#/definitions/DolarPrice"
-        
-  DolarAverage:
-    type: object
-    properties:
-      dolar_paralelo:
-        type: number
-      referencias:
-        type: array
-        items:
-          $ref: "#/definitions/DolarPrice"
-          
-  DolarAverageResponse:
-    type: object
-    properties:
-      status:
-        type: string
-      data:
-        $ref: "#/definitions/DolarAverage"
+
   principal:
     type: string
+

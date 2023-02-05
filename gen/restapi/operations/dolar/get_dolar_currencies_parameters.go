@@ -12,19 +12,19 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 )
 
-// NewGetDolarAverageParams creates a new GetDolarAverageParams object
+// NewGetDolarCurrenciesParams creates a new GetDolarCurrenciesParams object
 //
 // There are no default values defined in the spec.
-func NewGetDolarAverageParams() GetDolarAverageParams {
+func NewGetDolarCurrenciesParams() GetDolarCurrenciesParams {
 
-	return GetDolarAverageParams{}
+	return GetDolarCurrenciesParams{}
 }
 
-// GetDolarAverageParams contains all the bound params for the get dolar average operation
+// GetDolarCurrenciesParams contains all the bound params for the get dolar currencies operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters GetDolarAverage
-type GetDolarAverageParams struct {
+// swagger:parameters GetDolarCurrencies
+type GetDolarCurrenciesParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -33,8 +33,8 @@ type GetDolarAverageParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewGetDolarAverageParams() beforehand.
-func (o *GetDolarAverageParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewGetDolarCurrenciesParams() beforehand.
+func (o *GetDolarCurrenciesParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r

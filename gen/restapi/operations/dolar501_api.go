@@ -51,11 +51,11 @@ func NewDolar501API(spec *loads.Document) *Dolar501API {
 		AuthGetAuthTokenHandler: auth.GetAuthTokenHandlerFunc(func(params auth.GetAuthTokenParams) middleware.Responder {
 			return middleware.NotImplemented("operation auth.GetAuthToken has not yet been implemented")
 		}),
-		DolarGetDolarAverageHandler: dolar.GetDolarAverageHandlerFunc(func(params dolar.GetDolarAverageParams, principal interface{}) middleware.Responder {
-			return middleware.NotImplemented("operation dolar.GetDolarAverage has not yet been implemented")
+		DolarGetCurrencyPlatformsHandler: dolar.GetCurrencyPlatformsHandlerFunc(func(params dolar.GetCurrencyPlatformsParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation dolar.GetCurrencyPlatforms has not yet been implemented")
 		}),
-		DolarGetDolarPlatformsHandler: dolar.GetDolarPlatformsHandlerFunc(func(params dolar.GetDolarPlatformsParams, principal interface{}) middleware.Responder {
-			return middleware.NotImplemented("operation dolar.GetDolarPlatforms has not yet been implemented")
+		DolarGetDolarCurrenciesHandler: dolar.GetDolarCurrenciesHandlerFunc(func(params dolar.GetDolarCurrenciesParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation dolar.GetDolarCurrencies has not yet been implemented")
 		}),
 		DolarGetDolarPriceHandler: dolar.GetDolarPriceHandlerFunc(func(params dolar.GetDolarPriceParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarPrice has not yet been implemented")
@@ -113,10 +113,10 @@ type Dolar501API struct {
 	AuthAuthLoginHandler auth.AuthLoginHandler
 	// AuthGetAuthTokenHandler sets the operation handler for the get auth token operation
 	AuthGetAuthTokenHandler auth.GetAuthTokenHandler
-	// DolarGetDolarAverageHandler sets the operation handler for the get dolar average operation
-	DolarGetDolarAverageHandler dolar.GetDolarAverageHandler
-	// DolarGetDolarPlatformsHandler sets the operation handler for the get dolar platforms operation
-	DolarGetDolarPlatformsHandler dolar.GetDolarPlatformsHandler
+	// DolarGetCurrencyPlatformsHandler sets the operation handler for the get currency platforms operation
+	DolarGetCurrencyPlatformsHandler dolar.GetCurrencyPlatformsHandler
+	// DolarGetDolarCurrenciesHandler sets the operation handler for the get dolar currencies operation
+	DolarGetDolarCurrenciesHandler dolar.GetDolarCurrenciesHandler
 	// DolarGetDolarPriceHandler sets the operation handler for the get dolar price operation
 	DolarGetDolarPriceHandler dolar.GetDolarPriceHandler
 
@@ -206,11 +206,11 @@ func (o *Dolar501API) Validate() error {
 	if o.AuthGetAuthTokenHandler == nil {
 		unregistered = append(unregistered, "auth.GetAuthTokenHandler")
 	}
-	if o.DolarGetDolarAverageHandler == nil {
-		unregistered = append(unregistered, "dolar.GetDolarAverageHandler")
+	if o.DolarGetCurrencyPlatformsHandler == nil {
+		unregistered = append(unregistered, "dolar.GetCurrencyPlatformsHandler")
 	}
-	if o.DolarGetDolarPlatformsHandler == nil {
-		unregistered = append(unregistered, "dolar.GetDolarPlatformsHandler")
+	if o.DolarGetDolarCurrenciesHandler == nil {
+		unregistered = append(unregistered, "dolar.GetDolarCurrenciesHandler")
 	}
 	if o.DolarGetDolarPriceHandler == nil {
 		unregistered = append(unregistered, "dolar.GetDolarPriceHandler")
@@ -322,15 +322,15 @@ func (o *Dolar501API) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/dolar/promedio"] = dolar.NewGetDolarAverage(o.context, o.DolarGetDolarAverageHandler)
+	o.handlers["GET"]["/dolar/{moneda}"] = dolar.NewGetCurrencyPlatforms(o.context, o.DolarGetCurrencyPlatformsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/dolar"] = dolar.NewGetDolarPlatforms(o.context, o.DolarGetDolarPlatformsHandler)
+	o.handlers["GET"]["/dolar"] = dolar.NewGetDolarCurrencies(o.context, o.DolarGetDolarCurrenciesHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/dolar/{plataforma}"] = dolar.NewGetDolarPrice(o.context, o.DolarGetDolarPriceHandler)
+	o.handlers["GET"]["/dolar/{moneda}/{plataforma}"] = dolar.NewGetDolarPrice(o.context, o.DolarGetDolarPriceHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

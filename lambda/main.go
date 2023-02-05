@@ -4,6 +4,8 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/awslabs/aws-lambda-go-api-proxy/httpadapter"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/loads"
 	"github.com/go-redis/redis/v9"
@@ -61,9 +63,9 @@ func main(){
 	}
 
 	// handlers setup
-	api.DolarGetDolarCurrenciesHandler= handlers.NewGetCurrenciesImpl(dolarSrv)
-	api.DolarGetCurrencyPlatformsHandler = handlers.NewGetPlatformsImpl(dolarSrv)
+	api.DolarGetDolarPlatformsHandler = handlers.NewGetPlatformsImpl(dolarSrv)
 	api.DolarGetDolarPriceHandler = handlers.NewGetDolarPriceImpl(dolarSrv)
+	api.DolarGetDolarAverageHandler = handlers.NewGetDolarAverageImpl(dolarSrv)
 	api.AuthAuthLoginHandler = handlers.NewLoginImpl(gh)
 	api.AuthGetAuthTokenHandler = handlers.NewCallbackImpl(gh, authSrv)
 
@@ -73,5 +75,7 @@ func main(){
 
 	server.ConfigureAPI()
 
-	server.Serve()
+	adapter := httpadapter.New(server.GetHandler())
+	lambda.Start(adapter.Proxy)
+
 }

@@ -11,32 +11,39 @@ type GetPlatformsImpl struct {
 	srv *services.DolarServices
 }
 
-func NewGetPlatformsImpl(s *services.DolarServices ) dolar.GetDolarPlatformsHandler{
+func NewGetPlatformsImpl( s *services.DolarServices ) dolar.GetCurrencyPlatformsHandler {
 	return &GetPlatformsImpl{
 		srv: s,
 	}
 }
 
-func( impl *GetPlatformsImpl )Handle( params dolar.GetDolarPlatformsParams, prin interface{} ) middleware.Responder {
-	
-	data := impl.srv.GetPlatformsList()
+func(impl *GetPlatformsImpl)Handle(params dolar.GetCurrencyPlatformsParams, princ interface{}) middleware.Responder {
 
-	var platformsData []*models.DolarPlatform
+	result, err := impl.srv.GetCurrencyPlatforms(params.Moneda)
 
-	for _, name := range data {
-		platform := &models.DolarPlatform{
-			Plataforma: name,
-			Endpoint: "/api/v1/dolar/" + name,
+	if err != nil {
+		errResponse := &models.Default{
+			Status: "error",
+			Data: "Algo salio mal!",
 		}
 
-		platformsData = append(platformsData, platform)
+		return dolar.NewGetCurrencyPlatformsDefault(500).WithPayload(errResponse)
+	}
+
+	if result == nil {
+		notFound := &models.Default{
+			Status: "error",
+			Data: params.Moneda + " no fue encontrada!",
+		}
+
+		return dolar.NewGetCurrencyPlatformsDefault(404).WithPayload(notFound)
 	}
 
 	response := &models.DolarPlatforms{
 		Status: "success",
-		Data: platformsData,
-	}
-	return dolar.NewGetDolarPlatformsOK().WithPayload(response)
+		Data: result,
+	} 
+
+	return dolar.NewGetCurrencyPlatformsOK().WithPayload(response)
+
 }
-
-

@@ -40,16 +40,6 @@ func configureAPI(api *operations.Dolar501API) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	if api.DolarGetDolarAverageHandler == nil {
-		api.DolarGetDolarAverageHandler = dolar.GetDolarAverageHandlerFunc(func(params dolar.GetDolarAverageParams, principal interface{}) middleware.Responder {
-			return middleware.NotImplemented("operation dolar.GetDolarAverage has not yet been implemented")
-		})
-	}
-	if api.DolarGetDolarPlatformsHandler == nil {
-		api.DolarGetDolarPlatformsHandler = dolar.GetDolarPlatformsHandlerFunc(func(params dolar.GetDolarPlatformsParams, principal interface{}) middleware.Responder {
-			return middleware.NotImplemented("operation dolar.GetDolarPlatforms has not yet been implemented")
-		})
-	}
 	if api.DolarGetDolarPriceHandler == nil {
 		api.DolarGetDolarPriceHandler = dolar.GetDolarPriceHandlerFunc(func(params dolar.GetDolarPriceParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation dolar.GetDolarPrice has not yet been implemented")
