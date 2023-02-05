@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"log"
 	"strconv"
 	"strings"
 
@@ -84,9 +85,14 @@ func( s *DolarServices )GetDolarPrice(currency, platform string) (float64, error
 }
 
 func(s *DolarServices)ParseFloat(strNum string) float64 {
-	
+
+	strNum = strings.Replace(strNum, ".", "", 2)	
 	strNum = strings.Replace(strNum, ",", ".", 2)
-	num, _ := strconv.ParseFloat(strNum, 64)
+	num, err := strconv.ParseFloat(strNum, 64)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
 	
 	return num
 }
