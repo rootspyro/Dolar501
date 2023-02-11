@@ -1,0 +1,63 @@
+service: Dolar501
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: go1.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  deploymentBucket: 
+    name: ${self:custom.deploy_bucket}
+    serverSideEncryption: AES256
+  
+  environment:
+    REDIS_HOST: ${env:REDIS_HOST}
+    REDIS_PASSWORD: ${env:REDIS_PASSWORD}
+    REDIS_DB: ${env:REDIS_DB}
+    GH_CLIENT_ID: ${env:GH_CLIENT_ID}
+    GH_CLIENT_SECRET: ${env:GH_CLIENT_SECRET}
+ 
+package:
+ exclude:
+   - ./**
+ include:
+   - ./bin/**
+
+custom:
+  deploy_bucket: dolar501-deployment-bucket
+ 
+functions:
+  api:
+    handler: bin/lambda
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors:
+            origins:
+              - '*'
+            allowCredentials: true
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - charset
+
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors:
+            origins:
+              - '*'
+            allowCredentials: true
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - charset
